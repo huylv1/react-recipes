@@ -1,6 +1,5 @@
 node_modules/
 yarn-error.log
 yarn.lock
- dist/bundle.js
- dist/index.html
- 
+dist/bundle.js
+dist/index.html
