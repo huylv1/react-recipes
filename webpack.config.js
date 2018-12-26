@@ -9,8 +9,8 @@ module.exports = {
     entry: ['whatwg-fetch', './index.js'],
     mode: 'development',
     output: {
-        path: path.resolve(__dirname,'dist'),
-        filename: './bundle.js'        
+        path: path.resolve(__dirname, 'dist'),
+        filename: './bundle.js'
     },
     module: {
         rules: [
@@ -18,6 +18,26 @@ module.exports = {
                 test: /.js$/,
                 loader: 'babel-loader',
                 exclude: path.resolve(__dirname, 'node_modules/')
+            },
+            {
+                test: /\.(css|scss)$/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader'
+                    },
+                    {
+                        loader: 'sass-loader' // compiles Sass to CSS
+                    }
+                ]
             },
             {
                 test: /.(png|jpeg|ico)$/,

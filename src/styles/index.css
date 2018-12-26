@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/bootstrap";
+@import "./shame.css";
+@import "./borders.css";
+
+:root {
+    --black : #222
+}
+
+* {
+    color: var(--black)
+}
+
+ul {
+    list-style: none;
+}
