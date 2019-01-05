@@ -1,14 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export default class RecipeDetail extends Component {
   render() {
-
-    const {recipe} = this.props;
+    const { recipe } = this.props;
 
     if (!recipe) {
-        return (
-            <p style={this.props.style}>Please select a recipe to see the detail.</p>
-        )
+      return (
+        <p style={this.props.style}>
+          Please select a recipe to see the detail.
+        </p>
+      );
     }
 
     return (
@@ -16,6 +17,6 @@ export default class RecipeDetail extends Component {
         <h2 className="display-4">{recipe.name}</h2>
         <img src={recipe.image} height={500} />
       </div>
-    )
+    );
   }
 }

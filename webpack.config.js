@@ -10,7 +10,8 @@ module.exports = {
     mode: 'development',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: './bundle.js'
+        filename: './bundle.js',
+        publicPath: '/'
     },
     module: {
         rules: [
@@ -44,6 +45,9 @@ module.exports = {
                 loader: 'file-loader?name=[name].[ext]'  // <-- retain original file name
             },
         ]
+    },
+    devServer: {
+        historyApiFallback : true
     },
     plugins: [
         new HtmlWebpackPlugin({

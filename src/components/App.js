@@ -1,37 +1,49 @@
 import React, { Component } from 'react'
-import Logo from '../static/images/Packt_Logo.png'
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import Home from './Home';
+import Favourite from './Favourite';
 import Header from './Header';
-import RecipeList from './RecipeList';
-import RecipeDetail from './RecipeDetail';
+import NotFound from './NotFound';
+import Recipe from './Recipe';
 
 export default class App extends Component {
 
-  state = {
-    recipes: [],
-    currentRecipe : null
-  }
+    state = {
+        recipes: [],
+        favorites:[]
+    }
 
-  componentDidMount() {
-    fetch(`${API_URL}/v1/recipes`)
-      .then(data => data.json())
-      .then(recipes => this.setState({ recipes }));
-  }
+    componentDidMount() {
+        fetch(`${API_URL}/v1/recipes`)
+          .then(data => data.json())
+          .then(recipes => this.setState({ recipes }));
+      }
 
-  onRecipeClick = (id) => {
-    fetch(`${API_URL}/v1/recipes/${id}`)
-      .then(data => data.json())
-      .then(recipe => this.setState({ currentRecipe :  recipe}));
-  }
+    toggleFavorite = id => {
+        this.setState(({favorites, ...state}) => {
+          let favorited = favorites.includes(id);
+          if (favorited) {
+            return {...state, favorites : favorites.filter(f => f !== id)}  
+          } else {
+            return {...state, favorites : [...favorites, id]}  
+          }      
+        });
+      }
 
-  render() {
-    return (
-      <div>
-        <Header />
-        <main style={{ display: "flex" }}>
-          <RecipeList {...this.state} onClick={this.onRecipeClick} style={{ flex: 3 }}></RecipeList>
-          <RecipeDetail recipe={this.state.currentRecipe} style={{ flex: 8 }}></RecipeDetail>
-        </main>
-      </div>
-    )
-  }
+    render() {
+        return (
+            <BrowserRouter>
+                <main>      
+                    <Header />                
+                    <Switch>         
+                        <Redirect from="/home" to="/"/>               
+                        <Route exact path="/" render={() => <Home {...this.state} toggleFavorite={this.toggleFavorite}/>}/>
+                        <Route path="/favourite" render={() => <Favourite {...this.state} toggleFavorite={this.toggleFavorite}/>} />
+                        <Route path="/recipe/:id" component={Recipe}/>
+                        <Route component={NotFound}/>
+                    </Switch>
+                </main>
+            </BrowserRouter>
+        )
+    }
 }
